@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PlayBookModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ethnicity">
+          <Key>
+            <PropertyRef Name="eth_id" />
+          </Key>
+          <Property Name="eth_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eth_name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="gender_id" />
+          </Key>
+          <Property Name="gender_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="gender_name" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WordCombinations">
+          <Key>
+            <PropertyRef Name="comb_id" />
+          </Key>
+          <Property Name="comb_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="key1" Type="int" Nullable="false" />
+          <Property Name="key2" Type="int" Nullable="false" />
+          <Property Name="gender_id" Type="int" Nullable="false" />
+          <Property Name="eth_id" Type="int" Nullable="false" />
+          <Property Name="ValueCount" Type="int" />
+        </EntityType>
+        <EntityType Name="WordsDictionary">
+          <Key>
+            <PropertyRef Name="word_id" />
+          </Key>
+          <Property Name="word_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="word_desc" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__WordCombi__eth_i__36B12243">
+          <End Role="Ethnicity" Type="Self.Ethnicity" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombinations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ethnicity">
+              <PropertyRef Name="eth_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="eth_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WordCombi__gende__35BCFE0A">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombinations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="gender_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="gender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WordCombin__key1__33D4B598">
+          <End Role="WordsDictionary" Type="Self.WordsDictionary" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombinations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WordsDictionary">
+              <PropertyRef Name="word_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="key1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WordCombin__key2__34C8D9D1">
+          <End Role="WordsDictionary" Type="Self.WordsDictionary" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombinations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WordsDictionary">
+              <PropertyRef Name="word_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="key2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_CheckCombinationCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="source_id" Type="int" Mode="In" />
+          <Parameter Name="target_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_InsertIntoWordsMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="word_desc" Type="varchar" Mode="In" />
+          <Parameter Name="sourceword_id" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="usp_UpdateValueCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="comb_id" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="PlayBookModelStoreContainer">
+          <EntitySet Name="Ethnicity" EntityType="Self.Ethnicity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WordCombinations" EntityType="Self.WordCombinations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WordsDictionary" EntityType="Self.WordsDictionary" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__WordCombi__eth_i__36B12243" Association="Self.FK__WordCombi__eth_i__36B12243">
+            <End Role="Ethnicity" EntitySet="Ethnicity" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WordCombi__gende__35BCFE0A" Association="Self.FK__WordCombi__gende__35BCFE0A">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WordCombin__key1__33D4B598" Association="Self.FK__WordCombin__key1__33D4B598">
+            <End Role="WordsDictionary" EntitySet="WordsDictionary" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WordCombin__key2__34C8D9D1" Association="Self.FK__WordCombin__key2__34C8D9D1">
+            <End Role="WordsDictionary" EntitySet="WordsDictionary" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PlayBookModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Ethnicity">
+          <Key>
+            <PropertyRef Name="eth_id" />
+          </Key>
+          <Property Name="eth_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eth_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="WordCombinations" Relationship="Self.FK__WordCombi__eth_i__36B12243" FromRole="Ethnicity" ToRole="WordCombinations" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="gender_id" />
+          </Key>
+          <Property Name="gender_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="gender_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="WordCombinations" Relationship="Self.FK__WordCombi__gende__35BCFE0A" FromRole="Gender" ToRole="WordCombinations" />
+        </EntityType>
+        <EntityType Name="WordCombination">
+          <Key>
+            <PropertyRef Name="comb_id" />
+          </Key>
+          <Property Name="comb_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="key1" Type="Int32" Nullable="false" />
+          <Property Name="key2" Type="Int32" Nullable="false" />
+          <Property Name="gender_id" Type="Int32" Nullable="false" />
+          <Property Name="eth_id" Type="Int32" Nullable="false" />
+          <Property Name="ValueCount" Type="Int32" />
+          <NavigationProperty Name="Ethnicity" Relationship="Self.FK__WordCombi__eth_i__36B12243" FromRole="WordCombinations" ToRole="Ethnicity" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK__WordCombi__gende__35BCFE0A" FromRole="WordCombinations" ToRole="Gender" />
+          <NavigationProperty Name="WordsDictionary" Relationship="Self.FK__WordCombin__key1__33D4B598" FromRole="WordCombinations" ToRole="WordsDictionary" />
+          <NavigationProperty Name="WordsDictionary1" Relationship="Self.FK__WordCombin__key2__34C8D9D1" FromRole="WordCombinations" ToRole="WordsDictionary" />
+        </EntityType>
+        <EntityType Name="WordsDictionary">
+          <Key>
+            <PropertyRef Name="word_id" />
+          </Key>
+          <Property Name="word_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="word_desc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="WordCombinations" Relationship="Self.FK__WordCombin__key1__33D4B598" FromRole="WordsDictionary" ToRole="WordCombinations" />
+          <NavigationProperty Name="WordCombinations1" Relationship="Self.FK__WordCombin__key2__34C8D9D1" FromRole="WordsDictionary" ToRole="WordCombinations" />
+        </EntityType>
+        <Association Name="FK__WordCombi__eth_i__36B12243">
+          <End Role="Ethnicity" Type="Self.Ethnicity" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ethnicity">
+              <PropertyRef Name="eth_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="eth_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WordCombi__gende__35BCFE0A">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="gender_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="gender_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WordCombin__key1__33D4B598">
+          <End Role="WordsDictionary" Type="Self.WordsDictionary" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WordsDictionary">
+              <PropertyRef Name="word_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="key1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WordCombin__key2__34C8D9D1">
+          <End Role="WordsDictionary" Type="Self.WordsDictionary" Multiplicity="1" />
+          <End Role="WordCombinations" Type="Self.WordCombination" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WordsDictionary">
+              <PropertyRef Name="word_id" />
+            </Principal>
+            <Dependent Role="WordCombinations">
+              <PropertyRef Name="key2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PlayBookDataContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ethnicities" EntityType="Self.Ethnicity" />
+          <EntitySet Name="Genders" EntityType="Self.Gender" />
+          <EntitySet Name="WordCombinations" EntityType="Self.WordCombination" />
+          <EntitySet Name="WordsDictionaries" EntityType="Self.WordsDictionary" />
+          <AssociationSet Name="FK__WordCombi__eth_i__36B12243" Association="Self.FK__WordCombi__eth_i__36B12243">
+            <End Role="Ethnicity" EntitySet="Ethnicities" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WordCombi__gende__35BCFE0A" Association="Self.FK__WordCombi__gende__35BCFE0A">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WordCombin__key1__33D4B598" Association="Self.FK__WordCombin__key1__33D4B598">
+            <End Role="WordsDictionary" EntitySet="WordsDictionaries" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WordCombin__key2__34C8D9D1" Association="Self.FK__WordCombin__key2__34C8D9D1">
+            <End Role="WordsDictionary" EntitySet="WordsDictionaries" />
+            <End Role="WordCombinations" EntitySet="WordCombinations" />
+          </AssociationSet>
+          <FunctionImport Name="usp_CheckCombinationCount" ReturnType="Collection(Int32)">
+            <Parameter Name="source_id" Mode="In" Type="Int32" />
+            <Parameter Name="target_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_UpdateValueCount">
+          <Parameter Name="comb_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertIntoWordsDictionary">
+            <Parameter Name="word_desc" Mode="In" Type="String" />
+            <Parameter Name="sourceword_id" Mode="In" Type="Int32" />
+            <Parameter Name="userword_id" Mode="In" Type="Int32" />
+            <Parameter Name="gender_id" Mode="In" Type="Int32" />
+            <Parameter Name="eth_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertIntoWordsMaster">
+            <Parameter Name="word_desc" Mode="In" Type="String" />
+            <Parameter Name="sourceword_id" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PlayBookModelStoreContainer" CdmEntityContainer="PlayBookDataContext">
+          <EntitySetMapping Name="Ethnicities">
+            <EntityTypeMapping TypeName="PlayBookModel.Ethnicity">
+              <MappingFragment StoreEntitySet="Ethnicity">
+                <ScalarProperty Name="eth_id" ColumnName="eth_id" />
+                <ScalarProperty Name="eth_name" ColumnName="eth_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="PlayBookModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="gender_id" ColumnName="gender_id" />
+                <ScalarProperty Name="gender_name" ColumnName="gender_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WordCombinations">
+            <EntityTypeMapping TypeName="PlayBookModel.WordCombination">
+              <MappingFragment StoreEntitySet="WordCombinations">
+                <ScalarProperty Name="comb_id" ColumnName="comb_id" />
+                <ScalarProperty Name="key1" ColumnName="key1" />
+                <ScalarProperty Name="key2" ColumnName="key2" />
+                <ScalarProperty Name="gender_id" ColumnName="gender_id" />
+                <ScalarProperty Name="eth_id" ColumnName="eth_id" />
+                <ScalarProperty Name="ValueCount" ColumnName="ValueCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WordsDictionaries">
+            <EntityTypeMapping TypeName="PlayBookModel.WordsDictionary">
+              <MappingFragment StoreEntitySet="WordsDictionary">
+                <ScalarProperty Name="word_id" ColumnName="word_id" />
+                <ScalarProperty Name="word_desc" ColumnName="word_desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_CheckCombinationCount" FunctionName="PlayBookModel.Store.usp_CheckCombinationCount" />
+          <FunctionImportMapping FunctionImportName="usp_UpdateValueCount" FunctionName="PlayBookModel.Store.usp_UpdateValueCount" />
+          <FunctionImportMapping FunctionImportName="usp_InsertIntoWordsMaster" FunctionName="PlayBookModel.Store.usp_InsertIntoWordsMaster" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
