@@ -15,15 +15,6 @@ namespace WordGamePuzzle
     {
 
         /// <summary>
-        /// form1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
-        /// <summary>
         /// lblWord1 control.
         /// </summary>
         /// <remarks>
@@ -112,14 +103,5 @@ namespace WordGamePuzzle
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator cvword4;
-
-        /// <summary>
-        /// cvValidEnglishWordValidator control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator cvValidEnglishWordValidator;
     }
 }
